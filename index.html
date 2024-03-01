@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votación de Experiencia de Compra en Universal Importaciones</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Agregar Font Awesome para íconos de estrella -->
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    #votacion {
+        margin-top: 100px;
+    }
+    .stars {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    .stars input[type="radio"] {
+        display: none;
+    }
+    .stars label {
+        font-size: 2em;
+        color: #ddd;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+    .stars label:hover,
+    .stars input[type="radio"]:checked ~ label {
+        color: #ffd700; /* Color de estrella seleccionada */
+    }
+    #feedback-box {
+        display: none;
+        margin-bottom: 20px;
+    }
+    #feedback-box textarea {
+        width: 80%;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    #feedback-box button {
+        margin-top: 10px;
+    }
+    #mensaje-final {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+    }
+</style>
+</head>
+<body>
+
+<h1>Votación de Experiencia de Compra en Universal Importaciones</h1>
+
+<div id="votacion">
+    <div class="stars">
+        <input type="radio" name="rating" value="1" id="star1"><label for="star1"><i class="fas fa-star"></i></label>
+        <input type="radio" name="rating" value="2" id="star2"><label for="star2"><i class="fas fa-star"></i></label>
+        <input type="radio" name="rating" value="3" id="star3"><label for="star3"><i class="fas fa-star"></i></label>
+        <input type="radio" name="rating" value="4" id="star4"><label for="star4"><i class="fas fa-star"></i></label>
+        <input type="radio" name="rating" value="5" id="star5"><label for="star5"><i class="fas fa-star"></i></label>
+    </div>
+</div>
+
+<div id="feedback-box">
+    <h3>¿Cómo podemos mejorar nuestro servicio?</h3>
+    <textarea id="feedback" rows="4" cols="50"></textarea><br>
+    <button onclick="enviarFeedback()">Enviar</button>
+</div>
+
+<div id="mensaje-final" style="display: none;">
+    <p>Agradecemos tu respuesta, estamos en la búsqueda de mejorar tu experiencia de compra y tus comentarios son muy importantes para nosotros.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script> <!-- Agregar script de Font Awesome -->
+<script>
+    const stars = document.querySelectorAll('.stars input[type="radio"]');
+    const feedbackBox = document.getElementById('feedback-box');
+    const mensajeFinal = document.getElementById('mensaje-final');
+
+    stars.forEach(star => {
+        star.addEventListener('click', function() {
+            if (this.value <= 3) {
+                feedbackBox.style.display = 'block';
+            } else {
+                window.location.href = 'https://g.page/r/CXlO12LsUkhoEB0/review'; // Enlace deseado para calificaciones altas
+            }
+        });
+    });
+
+    function enviarFeedback() {
+        const feedback = document.getElementById('feedback').value;
+        // Aquí puedes agregar la lógica para enviar el feedback por correo electrónico
+        mensajeFinal.style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
