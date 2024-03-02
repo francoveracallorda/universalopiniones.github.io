@@ -21,6 +21,7 @@
     .stars {
         display: flex;
         justify-content: center;
+        flex-direction: row-reverse; /* Cambiar la dirección de las estrellas */
         margin-bottom: 20px;
     }
     .stars input[type="radio"] {
@@ -33,8 +34,7 @@
         transition: color 0.3s;
     }
     .stars label:hover,
-    .stars input[type="radio"]:checked ~ label,
-    .stars input[type="radio"]:checked ~ label ~ label {
+    .stars input[type="radio"]:checked ~ label {
         color: #ffd700; /* Color de estrella seleccionada */
     }
     #feedback-box {
@@ -50,7 +50,7 @@
     #feedback-box button {
         margin-top: 10px;
         background-color: #ff03a7; /* Color del botón */
-        color: #000000; /* Texto negro */
+        color: #FFFFFF; /* Texto negro */
         font-size: 14px; /* Tamaño del texto */
         border: none;
         padding: 10px 20px;
@@ -97,6 +97,7 @@
         margin-top: 10px;
     }
 
+    /* Reglas de medios para pantallas pequeñas */
     @media only screen and (max-width: 600px) {
         .stars label {
             font-size: 1.5em;
