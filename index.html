@@ -15,28 +15,31 @@
         background-color: #006bd6; /* Fondo azul */
         color: #FFFFFF; /* Texto blanco */
     }
+    h1, h2, h3 {
+        margin: 10px;
+    }
     #votacion {
-        margin-top: 100px;
+        margin-top: 50px;
     }
     .stars {
         display: flex;
         justify-content: center;
-        flex-direction: row-reverse; /* Cambiar la dirección de las caras */
+        flex-direction: row-reverse; /* Cambiar la dirección de las estrellas */
         margin-bottom: 20px;
     }
     .stars input[type="radio"] {
         display: none;
     }
     .stars label {
-        font-size: 5em; /* Tamaño de las caras */
+        font-size: 5em;
         color: #ddd;
         cursor: pointer;
         transition: color 0.3s;
     }
     .stars label:hover,
-    .stars input[type="radio"]:hover ~ label,
-    .stars input[type="radio"]:checked ~ label {
-        color: #ffd700; /* Color de cara seleccionada */
+    .stars input[type="radio"]:checked ~ label,
+    .stars input[type="radio"]:hover ~ label {
+        color: #ffd700; /* Color de estrella seleccionada */
     }
     #feedback-box {
         margin-bottom: 20px;
@@ -51,7 +54,7 @@
     #feedback-box button {
         margin-top: 10px;
         background-color: #ff03a7; /* Color del botón */
-        color: #FFFFFF; /* Texto negro */
+        color: #FFFFFF; /* Texto blanco */
         font-size: 14px; /* Tamaño del texto */
         border: none;
         padding: 10px 20px;
@@ -98,7 +101,6 @@
         margin-top: 10px;
     }
 
-    /* Reglas de medios para pantallas pequeñas */
     @media only screen and (max-width: 600px) {
         .stars label {
             font-size: 3.5em;
@@ -114,8 +116,7 @@
 <img src="https://www.universalimportaciones.uy/assets/uni-logo-vert-trim-0f197ea90854816ad0f09338fb14b035b3165db7eaf7f2c9b5e5802c4bbf1403.png" alt="Logo de Universal Importaciones" style="width: 200px; height: auto; margin-top: 20px;">
 
 <div id="votacion">
-    <h2>¿Cómo Calificarías tu Experiencia de Compra?</h2> 
-
+    <h2>¿Cómo Calificarías tu Experiencia de Compra con Nosotros?</h2>
     <div class="stars">
         <input type="radio" name="rating" value="5" id="star5"><label for="star5">😊</label>
         <input type="radio" name="rating" value="4" id="star4"><label for="star4">🙂</label>
@@ -155,46 +156,70 @@
     const mensajeFinal = document.getElementById('mensaje-final');
 
     stars.forEach(star => {
+        star.addEventListener('click', function() {
+            if (this.value <= 3) {
+                feedbackBox.style.display = 'block';
+            } else {
+                const ratingValue = this.value;
+                const params = new URLSearchParams(window.location.search);
+                const mluValue = params.get('mlu');
+                const vtValue = params.get('vt');
+                window.open(`https://reviews.mercadolibre.com.uy/review/MLU${mluValue}?origin=my-reviews-pending&rating=${ratingValue}`);
+                enviarFeedback(ratingValue, mluValue);
+            }
+        });
+
         star.addEventListener('mouseover', function() {
             const rating = parseInt(this.value);
             for (let i = 0; i < stars.length; i++) {
                 if (i < rating) {
-                    stars[i].nextElementSibling.style.color = getColorByRating(rating);
+                    stars[i].nextElementSibling.style.color = '#ffd700';
                 } else {
                     stars[i].nextElementSibling.style.color = '#ddd';
                 }
             }
         });
-
-        star.addEventListener('click', function() {
-            if (this.value <= 3) {
-                feedbackBox.style.display = 'block';
-            } else {
-                window.location.href = 'https://g.page/r/CXlO12LsUkhoEB0/review'; // Enlace deseado para calificaciones altas
-            }
-        });
     });
 
-    function getColorByRating(rating) {
-        switch (rating) {
-            case 1:
-                return 'red';
-            case 2:
-                return 'orange';
-            case 3:
-                return 'yellow';
-            case 4:
-                return 'green';
-            case 5:
-                return 'lime';
-            default:
-                return '#ddd';
-        }
-    }
-
-    function enviarFeedback() {
+    function enviarFeedback(rating, mluValue) {
         const feedback = document.getElementById('feedback').value;
-        // Aquí puedes agregar la lógica para enviar el feedback por correo electrónico
+        let subject = '';
+        let body = '';
+
+        if (rating >= 1 && rating <= 3) {
+            subject = 'Alerta - Tienes una Baja Calificación de Tienda';
+            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nProducto: ${mluValue}\nComentarios: ${feedback}\nVenta:200000 ${vtValue}`;
+        } else if (rating >= 4 && rating <= 5) {
+            subject = 'Tienes una Buena Calificación de Tienda';
+            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nProducto: ${mluValue}\nVenta:200000 ${vtValue}`;
+        }
+
+        const form = document.createElement('form');
+        form.setAttribute('action', 'https://formspree.io/xdoqdoeq');
+        form.setAttribute('method', 'POST');
+
+        const emailInput = document.createElement('input');
+        emailInput.setAttribute('type', 'hidden');
+        emailInput.setAttribute('name', 'Email');
+        emailInput.setAttribute('value', 'franco.vera@ortopediauniversal.com.uy');
+
+        const subjectInput = document.createElement('input');
+        subjectInput.setAttribute('type', 'hidden');
+        subjectInput.setAttribute('name', '_subject');
+        subjectInput.setAttribute('value', subject);
+
+        const bodyInput = document.createElement('input');
+        bodyInput.setAttribute('type', 'hidden');
+        bodyInput.setAttribute('name', 'Body');
+        bodyInput.setAttribute('value', body);
+
+        form.appendChild(emailInput);
+        form.appendChild(subjectInput);
+        form.appendChild(bodyInput);
+
+        document.body.appendChild(form);
+        form.submit();
+
         mensajeFinal.style.display = 'block';
     }
 </script>
