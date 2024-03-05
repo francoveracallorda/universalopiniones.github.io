@@ -165,7 +165,7 @@
                 const mluValue = params.get('mlu');
                 const vtValue = params.get('vt');
                 window.open(`https://g.page/r/CXlO12LsUkhoEB0/review`);
-                enviarFeedback(ratingValue, mluValue);
+                enviarFeedback(ratingValue, mluValue, vtValue);
             }
         });
 
@@ -181,17 +181,17 @@
         });
     });
 
-    function enviarFeedback(rating, mluValue) {
+    function enviarFeedback(rating, mluValue, vtValue) {
         const feedback = document.getElementById('feedback').value;
         let subject = '';
         let body = '';
 
         if (rating >= 1 && rating <= 3) {
             subject = 'Alerta - Tienes una Baja Calificación de Tienda';
-            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nProducto: ${mluValue}\nComentarios: ${feedback}\nVenta:200000 ${vtValue}`;
+            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nProducto: ${mluValue}\nComentarios: ${feedback}\nVenta: ${vtValue}`;
         } else if (rating >= 4 && rating <= 5) {
             subject = 'Tienes una Buena Calificación de Tienda';
-            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nProducto: ${mluValue}\nVenta:200000 ${vtValue}`;
+            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nProducto: ${mluValue}\nVenta: ${vtValue}`;
         }
 
         const form = document.createElement('form');
