@@ -164,7 +164,7 @@
                 const params = new URLSearchParams(window.location.search);
                 const mluValue = params.get('mlu');
                 const vtValue = params.get('vt');
-                window.open(`https://g.page/r/CXlO12LsUkhoEB0/review`);
+                window.open(`https://g.page/r/CXlO12LsUkhoEB0/review}`)
                 enviarFeedback(ratingValue, mluValue, vtValue);
             }
         });
@@ -195,13 +195,13 @@
         }
 
         const form = document.createElement('form');
-        form.setAttribute('action', 'https://formspree.io/xbjnkjzq');
+        form.setAttribute('action', 'https://formspree.io/xdoqdoeq');
         form.setAttribute('method', 'POST');
 
         const emailInput = document.createElement('input');
         emailInput.setAttribute('type', 'hidden');
-        emailInput.setAttribute('name', 'Email');
-        emailInput.setAttribute('value', 'franco.vera@ortopediauniversal.com.uy');
+        emailInput.setAttribute('name', '_replyto');
+        emailInput.setAttribute('value', 'johndoe@gmail.com');
 
         const subjectInput = document.createElement('input');
         subjectInput.setAttribute('type', 'hidden');
@@ -210,7 +210,7 @@
 
         const bodyInput = document.createElement('input');
         bodyInput.setAttribute('type', 'hidden');
-        bodyInput.setAttribute('name', 'Body');
+        bodyInput.setAttribute('name', 'body');
         bodyInput.setAttribute('value', body);
 
         form.appendChild(emailInput);
