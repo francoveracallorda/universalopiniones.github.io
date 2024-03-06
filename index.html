@@ -155,81 +155,75 @@
     const feedbackBox = document.getElementById('feedback-box');
     const mensajeFinal = document.getElementById('mensaje-final');
 
-    stars.forEach(star => {
-     star.addEventListener('click', function() {
+   stars.forEach(star => {
+    star.addEventListener('click', function() {
         const ratingValue = this.value;
         const params = new URLSearchParams(window.location.search);
         const mluValue = params.get('mlu');
         const vtValue = params.get('vt');
-            
-            if (this.value <= 3) {
-                feedbackBox.style.display = 'block';
-            } else {
-                const ratingValue = this.value;
-                window.open('https://g.page/r/CXlO12LsUkhoEB0/review');
-                enviarFeedback(ratingValue);
-            }
-        });
 
-        star.addEventListener('mouseover', function() {
-            const rating = parseInt(this.value);
-            for (let i = 0; i < stars.length; i++) {
-                if (i < rating) {
-                    stars[i].nextElementSibling.style.color = '#ffd700';
-                } else {
-                    stars[i].nextElementSibling.style.color = '#ddd';
-                }
-            }
-        });
+        if (this.value <= 3) {
+            feedbackBox.style.display = 'block';
+        } else {
+            window.open('https://g.page/r/CXlO12LsUkhoEB0/review');
+        }
     });
 
-    function enviarFeedback(rating) {
-        const params = new URLSearchParams(window.location.search);
-        const mluValue = params.get('mlu');
-        const vtValue = params.get('vt');
-        const feedback = document.getElementById('feedback').value;
-        const ratingValue = document.querySelector('.stars input[type="radio"]:checked').value;
-
-        let subject = '';
-        let body = '';
-
-        if (rating >= 1 && rating <= 3) {
-            subject = 'Alerta - Tienes una Baja Calificación de Tienda';
-            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}\nComentarios: ${feedback}`;
-        } else if (rating >= 4 && rating <= 5) {
-            subject = 'Tienes una Buena Calificación de Tienda';
-            body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${rating}`;
+    star.addEventListener('mouseover', function() {
+        const rating = parseInt(this.value);
+        for (let i = 0; i < stars.length; i++) {
+            if (i < rating) {
+                stars[i].nextElementSibling.style.color = '#ffd700';
+            } else {
+                stars[i].nextElementSibling.style.color = '#ddd';
+            }
         }
+    });
+});
 
-        const form = document.createElement('form');
-        form.setAttribute('action', 'https://formspree.io/xjvnoklo');
-        form.setAttribute('method', 'POST');
+function enviarFeedback() {
+    const params = new URLSearchParams(window.location.search);
+    const mluValue = params.get('mlu');
+    const vtValue = params.get('vt');
+    const feedback = document.getElementById('feedback').value;
+    const ratingValue = document.querySelector('.stars input[type="radio"]:checked').value;
 
-        const emailInput = document.createElement('input');
-        emailInput.setAttribute('type', 'hidden');
-        emailInput.setAttribute('name', '_replyto');
-        emailInput.setAttribute('value', 'franco.vera@ortopediauniversal.com.uy');
+    let subject = '';
+    let body = '';
 
-        const subjectInput = document.createElement('input');
-        subjectInput.setAttribute('type', 'hidden');
-        subjectInput.setAttribute('name', '_subject');
-        subjectInput.setAttribute('value', subject);
-
-        const bodyInput = document.createElement('input');
-        bodyInput.setAttribute('type', 'hidden');
-        bodyInput.setAttribute('name', 'body');
-        bodyInput.setAttribute('value', body);
-
-        form.appendChild(emailInput);
-        form.appendChild(subjectInput);
-        form.appendChild(bodyInput);
-
-        document.body.appendChild(form);
-        form.submit();
-
-        mensajeFinal.style.display = 'block';
+    if (ratingValue >= 1 && ratingValue <= 3) {
+        subject = `Alerta - Tienes una Baja Calificación de Tienda`;
+        body = `Tienes una nueva calificación de Producto\n\nCalificación: ${ratingValue}\nProducto: ${mluValue}\nComentarios: ${feedback}\nVenta: 200000${vtValue}`;
+    } else if (ratingValue >= 4 && ratingValue <= 5) {
+        subject = `Tienes una Buena Calificación de Tienda`;
+        body = `Tienes una nueva calificación de Producto\n\nCalificación: ${ratingValue}\nProducto: ${mluValue}\nVenta: 200000${vtValue}`;
     }
-</script>
 
-</body>
-</html>
+    const form = document.createElement('form');
+    form.setAttribute('action', 'https://formspree.io/xjvnoklo');
+    form.setAttribute('method', 'POST');
+
+    const emailInput = document.createElement('input');
+    emailInput.setAttribute('type', 'hidden');
+    emailInput.setAttribute('name', 'Email');
+    emailInput.setAttribute('value', 'franco.vera@ortopediauniversal.com.uy');
+
+    const subjectInput = document.createElement('input');
+    subjectInput.setAttribute('type', 'hidden');
+    subjectInput.setAttribute('name', '_subject');
+    subjectInput.setAttribute('value', subject);
+
+    const bodyInput = document.createElement('input');
+    bodyInput.setAttribute('type', 'hidden');
+    bodyInput.setAttribute('name', 'Body');
+    bodyInput.setAttribute('value', body);
+
+    form.appendChild(emailInput);
+    form.appendChild(subjectInput);
+    form.appendChild(bodyInput);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    mensajeFinal.style.display = 'block';
+}
