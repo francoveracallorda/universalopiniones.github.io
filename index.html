@@ -166,6 +166,7 @@
             feedbackBox.style.display = 'block';
         } else {
             window.open('https://g.page/r/CXlO12LsUkhoEB0/review');
+            enviarFeedback(ratingValue, mluValue, vtValue);
         }
     });
 
@@ -193,10 +194,10 @@ function enviarFeedback() {
 
     if (ratingValue >= 1 && ratingValue <= 3) {
         subject = `Alerta - Tienes una Baja Calificación de Tienda`;
-        body = `Tienes una nueva calificación de Producto\n\nCalificación: ${ratingValue}\nProducto: ${mluValue}\nComentarios: ${feedback}\nVenta: 200000${vtValue}`;
+        body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${ratingValue}\nComentarios: ${feedback}`;
     } else if (ratingValue >= 4 && ratingValue <= 5) {
         subject = `Tienes una Buena Calificación de Tienda`;
-        body = `Tienes una nueva calificación de Producto\n\nCalificación: ${ratingValue}\nProducto: ${mluValue}\nVenta: 200000${vtValue}`;
+        body = `Tienes una nueva calificación de Tienda\n\nCalificación: ${ratingValue}`;
     }
 
     const form = document.createElement('form');
