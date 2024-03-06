@@ -159,6 +159,7 @@
         star.addEventListener('click', function() {
             if (this.value <= 3) {
                 feedbackBox.style.display = 'block';
+                enviarFeedback(feedback,feedbackBox,ratingValue, mluValue, vtValue);
             } else {
                 const ratingValue = this.value;
                 const params = new URLSearchParams(window.location.search);
